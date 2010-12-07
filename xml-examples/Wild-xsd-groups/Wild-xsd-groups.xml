@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:x0="http://www.w3.org/2001/XMLSchema">
+    <example-1 info=" DTD definition like: (a?,(a,b?,c?)*,(a,b,c),(a,b,c))  ">
+        <aaa>1</aaa>
+        <bbb>2</bbb>
+        <ccc>3</ccc>
+        <aaa>11</aaa>
+        <bbb>22</bbb>
+        <ccc>33</ccc>
+        <aaa>111</aaa>
+        <bbb>222</bbb>
+        <ccc>333</ccc>
+    </example-1>
+    <example-2 info=" DTD definition like: ((a,b,c?)|(c,d))*  ">
+        <aaa>1</aaa>
+        <bbb>2</bbb>
+        <ccc>3</ccc>
+        <ddd>4</ddd>
+    </example-2>
+    <example-3 info=" DTD definition like: ((a,b,(a,c)*))*  ">
+        <aaa>1</aaa>
+        <bbb>2</bbb>
+        <aaa>3</aaa>
+        <bbb>4</bbb>
+        <aaa>31</aaa>
+        <ccc>32</ccc>
+        <aaa>5</aaa>
+        <bbb>6</bbb>
+        <aaa>51</aaa>
+        <ccc>52</ccc>
+        <aaa>53</aaa>
+        <ccc>54</ccc>
+    </example-3>
+</root>

@@ -1,0 +1,75 @@
+<taglib xmlns="http://java.sun.com/JSP/TagLibraryDescriptor" xmlns:x1="http://www.w3.org/2001/XMLSchema" xmlns:x0="http://www.w3.org/2000/10/XMLSchema">
+   <tlib-version>1.1.0</tlib-version>
+   <jsp-version>1.2</jsp-version>
+   <short-name>MyTags</short-name>
+   <uri>/WEB-INF/taglibs/my</uri>
+   <display-name>qwerty</display-name>
+   <description>dgryhrhrurutrutut
+ououiouyouo
+yiy6i6866</description>
+   <validator>
+      <validator-class>com.fg.MyValidator</validator-class>
+      <init-param>
+         <param-name>name1</param-name>
+         <param-value>val1</param-value>
+         <description>name1 param</description>
+      </init-param>
+      <description>somethong</description>
+   </validator>
+   <listener>
+      <listener-class>com.fg.MyListener</listener-class>
+   </listener>
+   <tag>
+      <name>Tag0</name>
+      <tag-class>com.gf.Tag0</tag-class>
+   </tag>
+   <tag>
+      <name>tag1</name>
+      <tag-class>com.fg.Tag1</tag-class>
+      <tei-class>com.fg.TEI1</tei-class>
+      <body-content id="bla-bla">tagdependent</body-content>
+      <description>about Tag1</description>
+      <variable>
+         <name-from-attribute>aaaaa</name-from-attribute>
+         <variable-class>java.lang.String</variable-class>
+         <declare>false</declare>
+         <scope>AT_BEGIN</scope>
+      </variable>
+      <attribute>
+         <name>attr1</name>
+         <required>yes</required>
+         <rtexprvalue>true</rtexprvalue>
+         <type>java.lang.String</type>
+      </attribute>
+   </tag>
+   <tag>
+      <name>TheTag</name>
+      <tag-class>com.fg.TheTag</tag-class>
+      <tei-class>com.fg.TheTEI</tei-class>
+      <body-content>JSP</body-content>
+      <display-name>TheTag</display-name>
+      <description>wwwwwwwwww
+ffffffffff
+gggggggg
+hhhhhhhhh
+</description>
+      <variable>
+         <name-given>ssss</name-given>
+         <scope>AT_BEGIN</scope>
+         <description>etryrhyryryryr
+ouiyuiyiyiyu
+ouyiyuiyiy</description>
+      </variable>
+      <variable>
+         <name-from-attribute>someAttr</name-from-attribute>
+         <variable-class>com.fg.MyClass</variable-class>
+         <declare>true</declare>
+      </variable>
+      <attribute>
+         <name>attr</name>
+      </attribute>
+      <example>uktry5u7t
+[-90808
+i0808</example>
+   </tag>
+</taglib>

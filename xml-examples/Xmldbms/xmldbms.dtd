@@ -1,0 +1,422 @@
+<!--
+   No copyright, no warranty; use as you will.
+   Written by Ronald Bourret, Technical University of Darmstadt, 1998-9
+-->
+<!--
+   XML-DBMS is a system for transferring data between XML documents
+   and relational databases. It views an XML document as a tree of
+   objects and then uses an object-relational mapping to map these
+   objects to a relational database.
+
+   Generally, element types are viewed as classes, and attributes and
+   PCDATA are viewed as properties of those classes. However, element
+   types can also be viewed as properties of their parent element
+   type. Although this is most useful when an element type contains
+   only PCDATA, it is useful in other cases as well. For example,
+   consider an element type that contains a description written in
+   XHTML. Although this description has subelements such as <B> and
+   <P>, these subelements cannot be meaningfully interpreted on their
+   own and it makes more sense to view the contents of the element
+   type as a single value (property) rather than a class.
+
+   (Note that the tree of objects is *not* the DOM. This is because
+   the DOM models the document itself, not the data in that document.)
+
+   The XML-DBMS mapping language, which is described in this DTD,
+   allows users to:
+
+   a) Declare how element types are to be viewed (as classes or
+      properties),
+
+   b) Declare which subelements, attributes, and PCDATA are to be
+      viewed as properties of a given element type-as-class (unmapped
+      XML structures are ignored), and
+
+   c) State how to map the resulting classes and properties to the
+      database.
+
+   The resulting object-relational mapping maps classes to tables and
+   properties to either columns in those tables or to subtables. (The
+   latter is useful, for example, for storing BLOB properties
+   separately.) Inter-class relationships are mapped as candidate key
+   / foreign key relationships. The mapping can also state whether to
+   preserve information about the order in which subelements and
+   PCDATA occur within their parent, which is generally important in
+   document-centric XML documents and unimportant in data-centric XML
+   documents.
+-->
+<!-- 
+   The XMLDBMS element type is the root element type of the
+   mapping document.
+ -->
+<!ELEMENT XMLToDBMS (Options*, Maps)>
+<!ATTLIST XMLToDBMS
+	Version CDATA #FIXED "1.0"
+>
+<!--
+   Options is simply a container to hold the various options you
+   can set.
+-->
+<!ELEMENT Options (EmptyStringIsNull?, DateTimeFormats?, Namespace*)>
+<!--
+   The EmptyStringIsNull element states how empty strings in an
+   XML document correspond to NULLs in the database. Technically,
+   NULL means that there is no value and is distinct from an empty
+   string. In an XML document, this corresponds to an optional
+   element or attribute being missing, as opposed to its being
+   present and having an empty string as its value (this includes
+   empty elements).
+
+   However, many XML users are likely to think of empty strings
+   as NULLs. EmptyStringIsNull allows XML-DBMS users to handle
+   this situation. If it is present, empty strings are treated
+   the same as NULLs; if it is absent, empty strings are treated
+   as strings.
+
+   The following table shows how NULL values and empty strings in
+   the database are transferred to missing elements/attributes and
+   empty strings in the XML document and vice versa.
+
+
+                                     Transfer Direction
+                          _______________________________________
+       EmptyStringIsNull |                   |                   |
+          element is:    |  DBMS  =>  XML    |    XML  =>  DBMS  |
+      ___________________|___________________|___________________|
+     |                   |                   |                   |
+     |                   | NULL   => missing | missing => NULL   |
+     |    not present    |                   |                   |
+     |                   | empty  => empty   | empty   => empty  |
+     |                   | string    string  | string     string |
+     |___________________|___________________|___________________|
+     |                   |                   |                   |
+     |                   | NULL   => empty   | missing => NULL   |
+     |                   |           string  |                   |
+     |     present       |                   |                   |
+     |                   | empty  => empty   | empty   => NULL   |
+     |                   | string    string  | string            |
+     |___________________|___________________|___________________|
+   
+
+   Note that EmptyStringIsNull applies only to elements and
+   attributes mapped as properties. (An empty element-as-class with
+   no attributes results in a row of all NULLs in the database.) 
+-->
+<!ELEMENT EmptyStringIsNull EMPTY>
+<!--
+   The DateTimeFormats element and its subelements specify the formats
+   used to parse dates, times, and timestamps. The information specified
+   here is used to construct one of Java's date formatting objects -
+   either a java.text.DateFormat or a java.text.SimpleDateFormat.
+
+   The value of the Language attribute must be a valid ISO Language Code.
+   These are defined by ISO-639 and are available on the Web. For example,
+   try:
+
+      http://www.ics.uci.edu/pub/ietf/http/related/iso639.txt 
+
+   The value of the Country attribute must be a valid ISO Country Code.
+   These are defined by ISO-3166 and are also available on the Web. For
+   example, try:
+
+      http://www.din.de/gremien/nas/nabd/iso3166ma/codlstp1.html
+
+   The value of Date, Time, and Timestamp attributes must be either one
+   of the keywords FULL, LONG, MEDIUM, or SHORT, whose formats are
+   described in the documentation for DateFormat, or a formatting
+   pattern as defined in the documentation for SimpleDateFormat. Which
+   format is used depends on the data type of the target column. (If
+   values are not being formatted correctly, be sure to check how the
+   JDBC driver maps the type of the target column. For example,
+   MS Access only supports TIMESTAMP columns.)
+
+   If an element is missing, the default value is used. For example, if
+   the Locale element is missing, the default locale is used. If the
+   DateTimeFormats element is missing, the default locale and format
+   are used. Note that Locale is used only if Date, Time, or Timestamp
+   is present.
+-->
+<!ELEMENT DateTimeFormats (Locale?, Patterns)>
+<!ELEMENT Locale EMPTY>
+<!ATTLIST Locale
+	Language NMTOKEN #REQUIRED
+	Country NMTOKEN #REQUIRED
+>
+<!ELEMENT Patterns EMPTY>
+<!ATTLIST Patterns
+	Date CDATA #IMPLIED
+	Time CDATA #IMPLIED
+	Timestamp CDATA #IMPLIED
+>
+<!--
+   Namespace elements give URIs and their associated prefixes. These
+   are used as follows:
+
+   a) In the mapping document, prefixes identify which namespace an
+      element or attribute belongs to. They can be used in the Name
+      attribute of the ElementType and Attribute element types.
+
+   b) When transferring data from an XML document to the database,
+      namespace URIs are used to identify elements and attributes in
+      that document. The XML document can use different prefixes than
+      are used in the mapping document.
+
+   c) When transferring data from the database to an XML document,
+      namespace URIs and prefixes are used to prefix element and
+      attribute names in that document.
+
+   Namespace elements are not required. If they are used, the same URI
+   or prefix cannot be used more than once. Zero-length prefixes ("")
+   are not currently supported.
+-->
+<!ELEMENT Namespace EMPTY>
+<!ATTLIST Namespace
+	Prefix NMTOKEN #REQUIRED
+	URI CDATA #REQUIRED
+>
+<!ELEMENT Maps (IgnoreRoot*, ClassMap+)>
+<!--
+   IgnoreRoot elements instruct the transfer software to ignore the
+   root element of the XML document (when transferring data from an
+   XML document to the database) or to construct an enclosing root
+   element (when transferring data from the database to an XML
+   document). This is useful when a document contains multiple,
+   unrelated instances of a particular class.
+
+   For example, suppose a document contains multiple sales orders:
+   each sales order is represented by a SalesOrder element and a
+   single Orders element serves as the root of the document. If the
+   sales orders are unrelated - that is, no information is stored in
+   the database about which sales orders are in this particular
+   document - then the root element of the document (Orders) should
+   be ignored.
+
+   The ElementType sub-element of IgnoreRoot identifies the root
+   element type to be ignored. A given map can identify multiple roots
+   that are to be ignored.
+
+   The PseudoRoot sub-elements of IgnoreRoot identify the mapped
+   children of the ignored root. Each is identified by its ElementType
+   and must be mapped separately in a ClassMap element. CandidateKey
+   (optional) gives the candidate key in the table to which the
+   pseudo-root element is mapped and OrderColumn (optional) gives the
+   column containing information about the order in which the
+   pseudo-root occurs in the actual root.
+-->
+<!ELEMENT IgnoreRoot (ElementType, PseudoRoot+)>
+<!ELEMENT PseudoRoot (ElementType, CandidateKey?, OrderColumn?)>
+<!--
+   ClassMap elements state that an element type (identified by the
+   ElementType subelement) is to be treated as a class. They also
+   provide information about the properties of that class (PropertyMap
+   subelements), any classes that are related to the class
+   (RelatedClass subelements), and how to map that class to the
+   database (ToRootTable and ToClassTable subelements).
+
+   A root table is any table that can be used as the top-level table
+   when extracting data from the database. The CandidateKey and
+   OrderColumn subelements give the columns that are used in the
+   WHERE and ORDER BY clauses when extracting data. The root element
+   type must be mapped as either ToRootTable or IgnoreRoot.
+
+   If a non-root element is mapped to a root table, the CandidateKey
+   and OrderColumn children of the ToRootTable element are ignored.
+   (The candidate key and order column are determined from the
+   RelatedClass element of the parent element instead.) This allows
+   a single map document to be used by multiple documents that share
+   the same DTD and mapping to the database but have different root
+   element types.
+-->
+<!ELEMENT ClassMap (ElementType, (ToRootTable | ToClassTable), PropertyMap*, RelatedClass*)>
+<!ELEMENT ToRootTable (Table, CandidateKey?, OrderColumn?)>
+<!ELEMENT ToClassTable (Table)>
+<!--
+   PropertyMap elements state that an attribute, PCDATA, or element
+   type is to be treated as a property. The property is identified by
+   the Attribute, PCDATA, or ElementType subelement and belongs to the
+   class in whose ClassMap the PropertyMap is nested.
+
+   Attributes and PCDATA can be properties only of their parent
+   element type-as-class. An element type can be a property of any
+   parent element type. Thus, an element type can be declared to be a
+   property of more than one element type-as-class.
+
+   Property values are stored in columns. These can be either in the
+   class table (ToColumn) or in a separate table (ToPropertyTable). In
+   the latter case, Table identifies the property table, and
+   CandidateKey and ForeignKey identify the keys used to join the two
+   tables.
+
+   The OrderColumn subelement designates the column in which the
+   system stores order information. For more information, see
+   OrderColumn below.
+-->
+<!ELEMENT PropertyMap ((Attribute | PCDATA | ElementType), (ToColumn | ToPropertyTable), OrderColumn?)>
+<!ELEMENT ToColumn (Column)>
+<!ELEMENT ToPropertyTable (Table, CandidateKey, ForeignKey, Column)>
+<!ATTLIST ToPropertyTable
+	KeyInParentTable (Candidate | Foreign) #REQUIRED
+>
+<!--
+   RelatedClass elements describe classes that are related to
+   the class being defined. In class terms, you can think of
+   this as meaning that a property is added to the class being
+   defined that points to the related class. In XML terms, this
+   means that the element type for the related class is a child
+   of the element type for the class being defined.
+
+   (Note that the term "child class" could have been used here,
+   but wasn't due to the potential for confusion with parent/
+   child table relationships, parent/child element
+   relationships, and class inheritance relationships.)
+
+   For example, in the following XML document, if the element
+   types <A> and <B> are mapped as classes, then <B> needs to
+   be defined as a related class of <A>.
+
+      <A>
+         <property_A1>123</property_A1>
+         <property_A2>abcde</property_A2>
+         <B>
+            <property_B1>123</property_B1>
+            <property_B2>abcde</property_B2>
+         </B>
+      </A>
+            
+
+   The RelatedClass element specifies the element type of the
+   related class, the candidate and foreign keys used to join
+   the tables for the two classes, and the name of the column
+   (if any) which contains the order in which the elements for
+   the related class appear in the class being defined.
+-->
+<!ELEMENT RelatedClass (ElementType, CandidateKey, ForeignKey, OrderColumn?)>
+<!ATTLIST RelatedClass
+	KeyInParentTable (Candidate | Foreign) #REQUIRED
+>
+<!--
+   The CandidateKey and ForeignKey elements describe the keys used to
+   join two tables: either two class tables or a class table and a
+   property table. Which key occurs in the parent table is declared in
+   the RelatedClass or ToPropertyTable element with the
+   KeyInParentTable attribute.
+
+   In addition, the CandidateKey element is used to identify the
+   columns used to identify rows when extracting data from the root
+   table.
+
+   The Generate attribute tells the system whether to generate the
+   candidate key. If the key is generated, the user must provide a
+   class that generates the key; for more information, see:
+
+      de.tudarmstadt.ito.xmldbms.KeyGenerator
+      de.tudarmstadt.ito.xmldbms.helpers.KeyGeneratorImpl
+
+   If the key is not generated, other properties must be mapped to
+   the key columns.
+-->
+<!ELEMENT CandidateKey (Column+)>
+<!ATTLIST CandidateKey
+	Generate (Yes | No) #REQUIRED
+>
+<!ELEMENT ForeignKey (Column+)>
+<!--
+   ElementType, Attribute, and PCDATA elements are used to identify
+   the corresponding XML structures.
+
+   The MultiValued attribute of the Attribute element type states
+   whether individual tokens in an attribute are separate values
+   (NMTOKENS, IDREFS, and ENTITIES attributes) or a single value
+   (CDATA, ID, IDREF, ENTITY, and NMTOKEN attributes).
+-->
+<!ENTITY % XMLName "Name NMTOKEN #REQUIRED">
+<!ELEMENT ElementType EMPTY>
+<!ATTLIST ElementType
+	%XMLName; 
+>
+<!ELEMENT Attribute EMPTY>
+<!ATTLIST Attribute
+	%XMLName; 
+	MultiValued (Yes | No) "No"
+>
+<!ELEMENT PCDATA EMPTY>
+<!--
+   Table, Column, and OrderColumn names are used to identify the
+   corresponding XML structures.
+
+   IMPORTANT: Table and column names in the map document must
+   exactly match the names stored in the database. A frequent
+   mistake is to use a different case in the map document than
+   is used in the database. This happens because some databases
+   (notably Oracle) convert table and column names in a CREATE
+   TABLE statement to all upper or all lower case.
+
+   For example, suppose you use the name Sales in a CREATE TABLE
+   statement. The database might store this name as SALES, in
+   which case you must use the name SALES in your map document.
+   If you use the name Sales, you will get an error saying that
+   XML-DBMS cannot find the table Sales.
+
+   Table names may be qualified with catalog and schema names.
+   Column names must not be qualified; the table to which they
+   belong is determined from context (see below). Table and
+   column names must not be quoted; the system quotes them before
+   using them in SQL statements.
+
+   When transferring data from the database to an XML document, the
+   special table name "Result Set" is used when the root table is a
+   result set.
+
+   The table to which a column belongs is determined as follows:
+
+   Column element in:        Column occurs in:
+   __________________        ________________________________________
+
+   ToColumn                  Class table
+   ToPropertyTable           Property table
+   CandidateKey              Determined by KeyInParentTable attribute
+   ForeignKey                Determined by KeyInParentTable attribute
+
+   OrderColumn element in:   Column occurs in:
+   __________________        ________________________________________
+
+   PseudoRoot                Class table of pseudo-root element
+   PropertyTable             Class table
+                               (if property mapped as ToColumn)
+                             Same table as foreign key
+                               (if property mapped as ToPropertyTable)
+   RelatedClass              Same table as foreign key
+
+   Order columns are used to store information about the order in
+   which elements and PCDATA occur in their parent element, as well as
+   the order of values in multi-valued attributes (IDREFS, NMTOKENS,
+   and ENTITIES).
+
+   Storing order information is optional; if it is not stored, there
+   is no guarantee that order will be preserved in a round trip from
+   an XML document to the database and back again. (Note that nesting
+   is preserved; that is, subelements and PCDATA always occur in the
+   correct parent.)
+
+   The Generate attribute of the OrderColumn element tells the system
+   whether to generate order information or not. (The presence or
+   absence of the OrderColumn element tells the system whether to use
+   order information.) If order information is generated, the order
+   column must be of type java.sql.Types.Integer. If order information
+   is not generated, another property must be mapped to the order
+   column.
+-->
+<!ENTITY % DatabaseName "Name CDATA #REQUIRED">
+<!ELEMENT Table EMPTY>
+<!ATTLIST Table
+	%DatabaseName; 
+>
+<!ELEMENT Column EMPTY>
+<!ATTLIST Column
+	%DatabaseName; 
+>
+<!ELEMENT OrderColumn EMPTY>
+<!ATTLIST OrderColumn
+	%DatabaseName; 
+	Generate (Yes | No) #REQUIRED
+>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE XMLToDBMS SYSTEM "xmldbms.dtd">
+<!-- This map document maps a result set created
+     over columns of the Sales table. The purpose
+     of this map is to show how the SalesOrder
+     element is mapped to a result set using
+     the special table name "Result Set". -->
+<XMLToDBMS Version="1.0">
+	<Options>
+		<DateTimeFormats>
+			<Patterns Timestamp="MM.dd.yy"/>
+		</DateTimeFormats>
+	</Options>
+	<Maps>
+		<IgnoreRoot>
+			<ElementType Name="Orders"/>
+			<PseudoRoot>
+				<ElementType Name="SalesOrder"/>
+				<CandidateKey Generate="No">
+					<Column Name="Number"/>
+				</CandidateKey>
+			</PseudoRoot>
+		</IgnoreRoot>
+		<ClassMap>
+			<ElementType Name="SalesOrder"/>
+			<ToClassTable>
+				<Table Name="Result Set"/>
+			</ToClassTable>
+			<PropertyMap>
+				<Attribute Name="SONumber"/>
+				<ToColumn>
+					<Column Name="Number"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="OrderDate"/>
+				<ToColumn>
+					<Column Name="Date"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="Customer"/>
+				<ToColumn>
+					<Column Name="CustNumber"/>
+				</ToColumn>
+			</PropertyMap>
+		</ClassMap>
+	</Maps>
+</XMLToDBMS>

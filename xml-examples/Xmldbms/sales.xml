@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<!DOCTYPE XMLToDBMS SYSTEM "xmldbms.dtd">
+<XMLToDBMS Version="1.0">
+	<Options>
+		<DateTimeFormats>
+			<Patterns Timestamp="MM.dd.yy"/>
+		</DateTimeFormats>
+	</Options>
+	<Maps>
+		<IgnoreRoot>
+			<ElementType Name="Orders"/>
+			<PseudoRoot>
+				<ElementType Name="SalesOrder"/>
+				<CandidateKey Generate="No">
+					<Column Name="Number"/>
+				</CandidateKey>
+			</PseudoRoot>
+		</IgnoreRoot>
+		<ClassMap>
+			<ElementType Name="Customer"/>
+			<ToClassTable>
+				<Table Name="Customers"/>
+			</ToClassTable>
+			<PropertyMap>
+				<Attribute Name="CustNumber"/>
+				<ToColumn>
+					<Column Name="Number"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="CustName"/>
+				<ToColumn>
+					<Column Name="Name"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="PostCode"/>
+				<ToColumn>
+					<Column Name="PostalCode"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="Street"/>
+				<ToColumn>
+					<Column Name="Street"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="City"/>
+				<ToColumn>
+					<Column Name="City"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="State"/>
+				<ToColumn>
+					<Column Name="State"/>
+				</ToColumn>
+			</PropertyMap>
+		</ClassMap>
+		<ClassMap>
+			<ElementType Name="SalesOrder"/>
+			<ToClassTable>
+				<Table Name="Sales"/>
+			</ToClassTable>
+			<PropertyMap>
+				<Attribute Name="SONumber"/>
+				<ToColumn>
+					<Column Name="Number"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="OrderDate"/>
+				<ToColumn>
+					<Column Name="Date"/>
+				</ToColumn>
+			</PropertyMap>
+			<RelatedClass KeyInParentTable="Candidate">
+				<ElementType Name="Line"/>
+				<CandidateKey Generate="No">
+					<Column Name="Number"/>
+				</CandidateKey>
+				<ForeignKey>
+					<Column Name="SONumber"/>
+				</ForeignKey>
+				<OrderColumn Name="Number" Generate="No"/>
+			</RelatedClass>
+			<RelatedClass KeyInParentTable="Foreign">
+				<ElementType Name="Customer"/>
+				<CandidateKey Generate="No">
+					<Column Name="Number"/>
+				</CandidateKey>
+				<ForeignKey>
+					<Column Name="CustNumber"/>
+				</ForeignKey>
+			</RelatedClass>
+		</ClassMap>
+		<ClassMap>
+			<ElementType Name="Part"/>
+			<ToClassTable>
+				<Table Name="Parts"/>
+			</ToClassTable>
+			<PropertyMap>
+				<Attribute Name="PartNumber"/>
+				<ToColumn>
+					<Column Name="Number"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="Description"/>
+				<ToColumn>
+					<Column Name="Description"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="Price"/>
+				<ToColumn>
+					<Column Name="Price"/>
+				</ToColumn>
+			</PropertyMap>
+		</ClassMap>
+		<ClassMap>
+			<ElementType Name="Line"/>
+			<ToClassTable>
+				<Table Name="Lines"/>
+			</ToClassTable>
+			<PropertyMap>
+				<Attribute Name="LineNumber"/>
+				<ToColumn>
+					<Column Name="Number"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="Quantity"/>
+				<ToColumn>
+					<Column Name="Quantity"/>
+				</ToColumn>
+			</PropertyMap>
+			<RelatedClass KeyInParentTable="Foreign">
+				<ElementType Name="Part"/>
+				<CandidateKey Generate="No">
+					<Column Name="Number"/>
+				</CandidateKey>
+				<ForeignKey>
+					<Column Name="Part"/>
+				</ForeignKey>
+			</RelatedClass>
+		</ClassMap>
+	</Maps>
+</XMLToDBMS>

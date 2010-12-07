@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<!DOCTYPE XMLToDBMS SYSTEM "xmldbms.dtd">
+<!-- This map document shows how to use a Namespace element
+     to declare an XML namespace URI and associate a prefix
+     with it. This prefix applies only to the values of the
+     Name attributes of the ElementType and Attribute elements
+     in the map document. That is, the prefix used in the XML
+     document can be different and must be declared in that
+     document with an xmlns attribute. The URI used in the
+     map document must match the URI used in the XML document. -->
+<XMLToDBMS Version="1.0">
+	<Options>
+		<DateTimeFormats>
+			<Patterns Timestamp="MM.dd.yy"/>
+		</DateTimeFormats>
+		<Namespace Prefix="foo" URI="http://www.bar.org"/>
+	</Options>
+	<Maps>
+		<IgnoreRoot>
+			<ElementType Name="foo:Orders"/>
+			<PseudoRoot>
+				<ElementType Name="foo:SalesOrder"/>
+				<CandidateKey Generate="No">
+					<Column Name="Number"/>
+				</CandidateKey>
+			</PseudoRoot>
+		</IgnoreRoot>
+		<ClassMap>
+			<ElementType Name="foo:Customer"/>
+			<ToClassTable>
+				<Table Name="Customers"/>
+			</ToClassTable>
+			<PropertyMap>
+				<Attribute Name="CustNumber"/>
+				<ToColumn>
+					<Column Name="Number"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="foo:CustName"/>
+				<ToColumn>
+					<Column Name="Name"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="foo:PostCode"/>
+				<ToColumn>
+					<Column Name="PostalCode"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="foo:Street"/>
+				<ToColumn>
+					<Column Name="Street"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="foo:City"/>
+				<ToColumn>
+					<Column Name="City"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="foo:State"/>
+				<ToColumn>
+					<Column Name="State"/>
+				</ToColumn>
+			</PropertyMap>
+		</ClassMap>
+		<ClassMap>
+			<ElementType Name="foo:SalesOrder"/>
+			<ToClassTable>
+				<Table Name="Sales"/>
+			</ToClassTable>
+			<PropertyMap>
+				<Attribute Name="SONumber"/>
+				<ToColumn>
+					<Column Name="Number"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="foo:OrderDate"/>
+				<ToColumn>
+					<Column Name="Date"/>
+				</ToColumn>
+			</PropertyMap>
+			<RelatedClass KeyInParentTable="Candidate">
+				<ElementType Name="foo:Line"/>
+				<CandidateKey Generate="No">
+					<Column Name="Number"/>
+				</CandidateKey>
+				<ForeignKey>
+					<Column Name="SONumber"/>
+				</ForeignKey>
+				<OrderColumn Name="Number" Generate="No"/>
+			</RelatedClass>
+			<RelatedClass KeyInParentTable="Foreign">
+				<ElementType Name="foo:Customer"/>
+				<CandidateKey Generate="No">
+					<Column Name="Number"/>
+				</CandidateKey>
+				<ForeignKey>
+					<Column Name="CustNumber"/>
+				</ForeignKey>
+			</RelatedClass>
+		</ClassMap>
+		<ClassMap>
+			<ElementType Name="foo:Part"/>
+			<ToClassTable>
+				<Table Name="Parts"/>
+			</ToClassTable>
+			<PropertyMap>
+				<Attribute Name="PartNumber"/>
+				<ToColumn>
+					<Column Name="Number"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="foo:Description"/>
+				<ToColumn>
+					<Column Name="Description"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="foo:Price"/>
+				<ToColumn>
+					<Column Name="Price"/>
+				</ToColumn>
+			</PropertyMap>
+		</ClassMap>
+		<ClassMap>
+			<ElementType Name="foo:Line"/>
+			<ToClassTable>
+				<Table Name="Lines"/>
+			</ToClassTable>
+			<PropertyMap>
+				<Attribute Name="LineNumber"/>
+				<ToColumn>
+					<Column Name="Number"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="foo:Quantity"/>
+				<ToColumn>
+					<Column Name="Quantity"/>
+				</ToColumn>
+			</PropertyMap>
+			<RelatedClass KeyInParentTable="Foreign">
+				<ElementType Name="foo:Part"/>
+				<CandidateKey Generate="No">
+					<Column Name="Number"/>
+				</CandidateKey>
+				<ForeignKey>
+					<Column Name="Part"/>
+				</ForeignKey>
+			</RelatedClass>
+		</ClassMap>
+	</Maps>
+</XMLToDBMS>

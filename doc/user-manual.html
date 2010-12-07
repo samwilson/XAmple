@@ -1,0 +1,855 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+                                 
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>XML Editor</title>
+</head>
+  <body>
+                  
+<table border="0" width="100%" bordercolorlight="#FFFFFF"
+ bordercolordark="#FFFFFF" bordercolor="#ffffff" cellspacing="0"
+ cellpadding="0">
+           <tbody>
+            <tr>
+             <td><img src="xample_logo.gif" width="140" height="38"
+ alt="xample_logo.gif (2517 bytes)">
+              </td>
+             <td>                                                       
+      <p align="right"><strong><big><big><big>XAmple XML Editor 2.2. User 
+Manual.</big></big></big></strong>         </p>
+              </td>
+           </tr>
+                                 
+  </tbody>        
+</table>
+                  
+<hr>  <big><b>Project Home: </b><a
+ href="http://www.felixgolubov.com/XMLEditor/">http://www.felixgolubov.com/XMLEditor/</a></big>
+ 
+<hr>           
+<p align="right">Author: <strong>Felix Golubov</strong> <br>
+         E-mail: <strong><a href="mailto:felixgolubov@yahoo.com">felixgolubov@yahoo.com</a></strong> 
+    </p>
+         <b>  </b>        
+<p><b>CONTENT</b><br>
+         <br>
+         <a href="#_1">1. INTRODUCTION</a> </p>
+                  
+<blockquote>                           
+  <p><a href="#_1_1">1.1. New featurse of the XAmple XML editor introduced in 
+  version 2.2</a><br>
+  <a href="#_1_2">1.2. Area of application.</a> <br>
+           <a href="#_1_3">1.3. XML Schema features. </a> </p>
+         </blockquote>
+         <a href="#_2">  </a>        
+<p><a href="#_2">2. Getting started.</a> </p>
+                  
+<blockquote>                           
+  <p><a href="#_2_1">2.1. Distribution.</a> <br>
+           <a href="#_2_2">2.2. Building and running XAmple project.</a>
+  <br>
+           <a href="#_2_3">2.3. Running examples.</a> </p>
+         </blockquote>
+         <a href="#_3">  </a>        
+<p><a href="#_3">3. Customizing XML Schema.</a> </p>
+                  
+<blockquote>                           
+  <p><a href="#_3_1">3.1. Default field editors.</a> <br>
+           <a href="#_3_2">3.2. Custom field editors.</a> <br>
+           <a href="#_3_3">3.3. Global field editors.</a> <br>
+       <a href="#_3_4">3.4. Field editor parameters.<br>
+       </a>      <a href="#_3_5">3.5. Additional labeling.</a> <br>
+           <a href="#_3_6">3.6. Messages for selected nodes.</a> </p>
+         </blockquote>
+         <a href="#_4">  </a>        
+<p><a href="#_4">4. Underlying tree control - FTree.</a> <br>
+         <br>
+         <br>
+         <big><big><a name="_1"></a> 1. INTRODUCTION.</big></big><br>
+       &nbsp; &nbsp; &nbsp; &nbsp;</p>
+             
+<div align="justify">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <b>XAmple XML Editor
+project</b> introduces a java Swing based XML editor that analyzes a given
+schema and then generates a document-specific graphical user interface. Unlike
+other XML editors, the XAmple XML editor GUI exposes not just a tree representation
+of the XML document but rather a logical combination of the XML document
+and respective XML Schema. The user interface of the XML editor is highly
+logical and intuitively comprehensible. To be able to prepare valid XML documents
+of significant complexity, a user is not required to be familiar with&nbsp;XML
+and XML Schema languages and to have any a-priori knowledge about the documents
+structural requirements. <br>
+       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; The current version of the XAmple
+   XML editor uses Xerces 2 Java Parser 2.5.0 (see <a
+ href="http://xml.apache.org/xerces2-j/index.html">http://xml.apache.org/xerces2-j/index.html</a>), 
+   developed under the Apache Software License (see <a
+ href="http://xml.apache.org/LICENSE">http://xml.apache.org/LICENSE</a>).<br>
+       &nbsp;&nbsp;&nbsp; &nbsp; The project currently includes a simple
+set   of  XML viewer/editor Swing components (<b>FXBasicView</b>, <b>FXView</b>
+  and  <b>FXDoubleView</b>), XML editor data model object <b>FXDocumentModelImpl</b>, 
+   sample XML Editor application <b>XAmple</b> and XML editor demo applet 
+<b>FXApplet</b>.   <b>FXBasicView</b> Swing component provides all the basic 
+XML viewer/editor   functionality. <b>FXView</b> extends FXBasicView with 
+a simple tool-bar;  <b>FXDoubleView</b> exposes two FXView components, both 
+of which use the same FXDocumentModelImpl object. A user can edit two different 
+sections of the same XML document without scrolling the whole document back 
+and forth and search a document for certain element/attribute values in one 
+view, maintaining at the same time current position in another view.&nbsp; 
+<br>
+       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <b>XAmple</b> is a full-blown
+  application  and can be used "as is". At the same time XAmple application 
+ has been developed  mostly as an example  of how to use FXDocumentModelImpl 
+ and <b>FXDoubleView  Swing</b> component.  The full source code of the XAmple 
+ application is available  to the developers  without any restrictions for 
+ its usage.
+        </div>
+                   
+<div align="justify">&nbsp;</div>
+                   
+<div align="justify"><a name="_1_1"></a>
+         <big>1.1. New features of the XAmple XML editor introduced in version 
+  2.2.</big><br>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+                   
+<div align="justify">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; When grouping of 
+  child elements in a complex element definition is not trivial, XAmple XML 
+  editor exposes such an element as a sub-tree, which consists from 
+  group-folders, array-folders and child elements. Generally a reconstruction of 
+  grouping structures from a sequence of child elements represents a complicated 
+  combinatorial problem, which sometimes has multiple solutions. XAmple XML 
+  editor v2.2 introduces an entirely new 'reconstruction' algorithm which 
+  overcomes all the shortcomings of the previous one (package 
+  com.fg.reconstructor). An XAmple XML editor 2.2 distribution package includes 
+  a new example <b>Wild-xsd-groups</b> which demonstrates an ability of the XML 
+  editor to resolve correctly non-trivial combinatorial problems of 
+reconstruction of hierarchies of XSD groups for given sequences
+of child xml elements.<br>
+        </div>
+                   
+<p align="justify"> 
+         <big><a name="_1_2"></a>1.2. Area of application.</big><br>
+         <br>
+         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; It is easy to notice that
+XAmple    XML editor is not a generic all-purpose XML editor. Being extremely
+convenient     for many types of XML documents, it is much less convenient
+and even hardly     applicable for other types. Specifically, it is not the
+tool of choice  for   the language-like XML documents (XHTML, XSLT, XML Schema
+itself, etc.).   At  the same time, it is the most convenient &nbsp;tool
+for all the variety   of  existing XML configuration files and XML documents,
+intended for data   storage/transportation.  <br>
+         The XAmple XML Editor component is currently intended for two different
+ purposes:    </p>
+                  
+<ul>
+           <li>                                        
+    <p align="justify">XAmple XML editor can be used as a generic xml-configuration
+    tool,     integrated with some major java products (application servers,
+   IDEs, etc.) Currently the     process of adding new features to the xml
+ configuration   involves development of new     versions of some tailor-made
+ configuration   tools (xml-generating wizards). Generally it is     much
+less expensive to  utilize XAmple XML editor and prepare just a new versions
+of the XML Schema      document when needed. </p>
+           </li>
+           <li>                                        
+    <p align="justify">Usage of an XML editor Swing component component (either
+    of FXBasicView, FXView, FXDoubleView) within a java application provides
+   the     application with ability to edit arbitrary set of xml documents
+ of  different types.     Besides, XAmple XML editing Swing component represents
+   an ultimately flexible schema-driven dialog and thus it     can be used
+ as  a schema-driven data entry form, etc. </p>
+           </li>
+                 
+</ul>
+                  
+<p><big><a name="_1_3"></a>1.3. XML Schema features.</big><br>
+         <br>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The XAmple XML editor 
+allows    editing of the XML documents of quite sophisticated structure. It
+handles    recursive definitions (thus nesting level of elements is not limited),
+all   types of XML Schema grouping (<b>sequence</b> , <b>choice</b> and <b>all</b>
+   groups), nested grouping (when a group can contain other groups), substitution
+   groups, multiple namespaces, etc. At the same time it imposes some restrictions
+   upon the XML Schema syntax. The following XML Schema features currently
+ are  <b>not  allowed</b> : </p>
+                  
+<ol>
+           <li><b>anyType</b> unrestricted elements. </li>
+           <li><b>any</b> elements. </li>
+           <li><b>anyAttribute</b> attributes. </li>
+           <li><b>complexType mixed="true" </b>mixed content.</li>
+                 
+</ol>
+                  
+<p align="justify">It is easy to notice that all the existing types of &nbsp;the 
+    xml-configuration documents and data-holding xml documents are always
+ strictly structured    and thus they comply with all the imposed restrictions. 
+ Although it is planned  to relax these restrictions in the future versions, 
+ the XAmple XML Editor will remain  being mainly a tool for editing strictly
+ structured XML documents. For custom <b>appinfo</b> schema features see
+<a href="#_3">3. Customizing XML Schema.</a><br>
+         <br>
+         <big><big><a name="_2"></a> 2. Getting started. </big></big><br>
+         <br>
+         Download, unpack, rebuild (optionally) and run the XAmple application
+   the  way it is explained in <a href="#_2_1">2.1. Distribution</a> and
+<a href="#_2_2">2.2.&nbsp;Building and running XAmple project</a> sections.
+    After the application window appears on the screen, run the examples
+from     the <b>xml-examples/</b> directory as it is described in the <a
+ href="#_2_3">2.3. Running examples</a> section. <br>
+         <br>
+         <big><a name="_2_1"></a> 2.1. Distribution.</big><br>
+         <br>
+         After downloading the distribution ZIP file you may unpack it to 
+any   directory  on your local drive <br>
+         (to extract files you may use JAR tool:&nbsp;&nbsp;&nbsp; jar xf 
+XAmple-distr.zip)    <br>
+         The distribution file contains a single root directory XAmple-distr
+  with   the following content: </p>
+                  
+<blockquote>                           
+  <p><big>doc</big>/ - contains copy of <strong>user-manual.html</strong>
+    document and <strong>javadoc</strong>   folder.<br>
+           &nbsp;&nbsp;&nbsp;&nbsp; <big>javadoc/</big> - a root of the javadoc 
+   documentation of the   following java packages:</p>
+                                   
+  <blockquote>                                             
+    <p align="justify">com.fg.custnodes<br>
+   com.fg.ftree<br>
+   com.fg.ftreenodes<br>
+   com.fg.fxapplet<br>
+   com.fg.reconstructor<br>
+   com.fg.util<br>
+   com.fg.xample<br>
+   com.fg.xmleditor<br>
+       </p>
+                 
+    <p align="justify">          The most important (and the most thoroughly 
+ prepared) is the documentation   for the     com.fg.xmleditor package, which 
+ contains XML Editor components a FXBasicView, FXView   and FXDoubleView XML
+ Editor components and FXDocumentModelImpl data model class. The     documentation
+ for all the other packages currently is quite sketchy (it will be completed
+ soon). There shouldn't be a problem with the com.fg.xample and com.fg.custnodes
+ packages given that all the source code is available.&nbsp;     </p>
+           </blockquote>
+                                   
+  <p><big>lib</big>/&nbsp; - &nbsp;directory contains following JAR files:</p>
+         </blockquote>
+                  
+<blockquote>                           
+  <blockquote>                                             
+    <p><b>xmleditor.jar</b> &nbsp;- package contains XAmple XML editor classes 
+   and components.<br>
+             <br>
+             <b>xml-apis.jar</b>,<br>
+             <b>xercesImpl.jar</b> - Xerces 2 Java Parser 2.5.0 package (see
+      <a href="http://xml.apache.org/xerces2-j/index.html">http://xml.apache.org/xerces2-j/index.html</a>), 
+   developed under the Apache Software License (see <a
+ href="http://xml.apache.org/LICENSE">http://xml.apache.org/LICENSE</a>).</p>
+                                         
+    <p>      <b>mdate.jar</b> - a trial version of the MonarchDate Release 
+   1.2.<br>
+             (<i>The most recent version of MonarchDate can be downloaded 
+from:<br>
+             <a href="http://www.singleton-labs.com/downloads.php">http://www.singleton-labs.com/downloads.php</a> 
+        . &nbsp;Usage of this package is optional. If you are going to use 
+ it  you have to buy a     license, otherwise just remove mdate.jar from the
+  "lib"  directory and FDate     component from the "src/com/fg/custnodes"
+  directory  and recompile the project)</i></p>
+           </blockquote>
+                                   
+  <p><big>src</big>/ - directory contains source code of XAmple application
+    (com.fg.xample   package) and source code of two custom field editors
+(com.fg.custnodes    package). <br>
+           <br>
+           <big>xml-examples</big>/ - directory contains a set of sub-directories
+    with different   examples of *.xsd (XML Schemas) and respective *.xml
+files.<br>
+           </p>
+         </blockquote>
+                  
+<p>The distribution package contains the following files in its root directory:
+    </p>
+                  
+<blockquote>                           
+  <p><b>build.xml</b> - Ant "build" file.<br>
+           <b>build.bat</b> - calls Ant to compile, build and run the application.<br>
+           <b>run.bat</b> - runs the XAmple application.<br>
+           <b>xample.jar</b> - a jar file, which contains compiled classes
+ from   the   <big>src</big>   directory. The file is deleted and rebuilt
+each time   when "build" is executed.</p>
+         </blockquote>
+                  
+<p><big><a name="_2_2"></a>2.2. Building and running XAmple project. </big><br>
+         <br>
+         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; To build and run the application 
+   you have to have java version 1.3 or higher installed on your computer. 
+ Running  the application requires the following jar-files on your CLASSPATH: 
+ <b>xample.jar</b>,                 <b>xmleditor.jar</b><b>, </b><b>xml-apis.jar</b>, 
+ <b>xercesImpl.jar</b>,   <b>mdate.jar</b> (optional). The application main 
+ class is com.fg.xample.XAmple.<br>
+         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Since the there is the <b>xample.jar</b>
+    file in the root directory, you can run the project with <b>run.bat</b>
+  immediately  without&nbsp; rebuilding it (provided that JAVA_HOME system
+ property is set).  If you want to rebuild the project, you can do it by
+running  Ant for "build.xml"  (provided that <b>jakarta-ant</b> is installed
+on your  computer) or using  any java IDE you like. The Ant build process
+creates a new <big>classes/</big>  directory, populates it with compiled
+java classes  from the <big>src/</big>  directory,&nbsp; rebuilds the <b>xample.jar</b>
+ file and runs the application.<br>
+         <br>
+         <br>
+         <big><a name="_2_3"></a> 2.3. Running examples.</big><br>
+         <br>
+         In order to execute examples: </p>
+                   
+<ul>
+           <li>Start the XML editor with "run.bat". (Make sure that java
+1.3+   is  installed on     your computer and JAVA_HOME system property is
+set).&nbsp;       </li>
+           <li>Click "Open XML Schema" button (button #1, marked &#8220;XSD&#8221;) and 
+ select        an *.xsd file from any subdirectory of the "xml-examples" directory.</li>
+           <li>Click "Open XML Document" button (button #2) and select an 
+*.xml    file from the     same subdirectory you have loaded *.xsd file.</li>
+           <li>Try to edit XML file, save it, etc. If a sub-directory contains
+   multiple  *.xml files,     you can load and edit them sequentially without
+   reloading  *.xsd file. If you are going to     another sub-directory,
+then    you have to load *.xsd file before loading any *.xml files.</li>
+                 
+</ul>
+                  
+<p align="justify">The XAmple application maintains a list of previously
+loaded XSD and respective XML files, which is stored in "history.xml" file
+in the progect root directory. To reload any previously loaded XSD document
+or an XML document for current XSD you can choose them from drop-down lists,
+associated with respective "Open XML Schema"/"Open XML Document" buttons.
+        </p>
+ 
+<p align="justify">     </p>
+ 
+<div align="justify">
+<div align="justify"><b>a). &nbsp;XML Tree View Modes: Editor and Viewer.</b><br>
+ <br>
+ The XML editor exposes 2 tree views, which reside on a split-pane. The width 
+of the left view initially is minimized and the right &nbsp;view covers the 
+whole area. Each view can be set to Editor/Viewer modes (by pressing Editor/Viewer 
+buttons on the view toolbar). A tree view in the Editor mode exposes a hybrid 
+of XML Document and Schema, whereas a tree view in the Viewer mode exposes 
+a real structure of the XML document. Initially the the left view is set to
+the Viewer and the right one - to the Editor mode. 
+<div align="justify">Optionally, a user can synchronize navigation through
+ nodes of the tree views (by pressing "Synchronized" button on the main toolbar).
+ When navigation is synchronized, a user can add, remove or edit elements
+in Editor tree view and immediately see changes on Viewer. When navigation
+is not synchronized, a user can search a document for certain element/attribute
+ values in one view, maintaining at the same time current position on another
+ view.<br>
+ <br>
+ <b>b). XML tree - folders and leaves.<br>
+ </b><br>
+ A tree, which represents XML document consists from folders (tree nodes
+with child nodes) and leaf nodes. Each&nbsp; folder is provided with an "expansion-bar" 
+- a narrow vertical button, which is located along its left border. A folder 
+can be expanded/collapsed with a mouse click at its expansion-bar. When mouse 
+enters an expansion bar, the XML editor displays respective folder information 
+in a special area. <br>
+ <br>
+ <b>c). Insertion and removal of elements/groups with multiple occurences.</b><br>
+ <br>
+ A tree view in the Editor mode exposes a special type of folders - <b>"array-folders"</b>,
+ which contain multiple occurrences of element and group instances. These 
+folders are marked <b>"Array (...) of ..."</b>; their expansion-bars   are 
+painted     to blue. <b>The XML editor allows insertion and removal of the 
+tree nodes     within array-folders only</b>. To insert an element or group 
+node in&nbsp; array-folder,     you have to select any existing node within 
+the array-folder and click "Insert     before..." or "Insert after..." button 
+or choose a respective item from the pop-up menu. A selected node within an
+    array-folder can be removed with "Remove node" button click.The editor 
+doesn't allow to remove the last node from    an     array-folder. If Schema-specified 
+"minOccurs" of the respective node   is 0, then     the whole array-folder 
+can be disabled by unselecting its  toggle control (check-box or radio-button 
+- see <b>(e)</b>).          <br>
+ <br>
+ <b>d). Changing an order of element and group instances.</b><br>
+ <br>
+ A tree view in the Editor mode allows changing an order of elements and
+groups within "array-folders" (see <b>(c)</b>) and elements - members of
+"xsd:all" groups (marked as "Reorderable Group"). To change an order of elements
+or  groups     you have to select a respective element/group node and click
+"Move up" or "Move down" button (or select a respective item from the pop-up
+menu).<br>
+ <br>
+ <b>e). Adding and removal of optional elements and attributes.</b>     
+                              
+<p align="justify">All the tree nodes on a view in the Editor mode, excluding 
+immediate children of    array-folders are     provided with <b>toggle controls</b> 
+(check-boxes/radio-buttons).&nbsp;                                   The toggle
+controls are permanently selected and disabled    for the     mandatory nodes
+and enabled for the optional ones. Unselection    of the toggle control 
+   disables respective node and all its descendants.        <b>Disabled (grayed
+out) nodes are not     included in the resulting   XML document</b> and are
+not shown by a tree wiew in the Viewer mode. <br>
+ </p>
+ <b>f). Choice groups and element substitution groups.</b><br>
+                                     
+<p align="justify">Choice and substituion group nodes are shown only by a 
+tree view in the Editor mode. If a choice group contains neither other groups 
+nor    elements with     substitution groups, then such a group is represented
+  with  a node, which is provided with     a drop-down list of available
+child   elements.  In this case only one (currently selected)     branch
+is visible   at the time.  Otherwise all the child nodes of the choice group
+node are      provided with  radio-buttons, which constitute an exclusive
+child selection. An elements with a substitution group is always represented
+   with a     node, provided with a drop-down list of substitution elements.<br>
+ </p>
+ <b>g). Input validation.</b><br>
+                                     
+<p align="justify">The editor verifies validity of element and attribute
+   text values     just in time of typing and displays respective error messages.
+    The validity is checked     against type, enumeration, minimum and maximum
+    length, regular expression pattern,     ID-IDREF referential integrity,
+  etc.  All the invalid tree nodes change their colors to red     and propagate
+  "invalid"  status to their parents - up to the tree root. Any new     element
+  node, which can contain other elements appears at first as collapsed and
+ marked as     invalid. To make it valid a user has to expand it (and possibly
+ edit values of its     children). To find nodes with invalid text values
+a user may click "Find Invalid     Node" button or choose respective item
+from the pop-up menu.</p>
+                           </div>
+ </div>
+                   </div>
+<p>The example XSD/XML files reside within sub-directories of the "xml-examples" 
+    directory. Currently there are 10 examples:   </p>
+               
+<ol>
+           <li>Divisions,</li>
+           <li>Wild-xsd-groups,</li>
+           <li>Ejb-jar_1_1,</li>
+           <li>Jnlp,</li>
+           <li>Log4j, </li>
+           <li>TagLibrary,</li>
+           <li>Xmldbms, </li>
+           <li>zzz_Application_1_3,</li>
+           <li>zzz_Ejb-jar_2_0,</li>
+           <li>zzz_JBoss_3_0,</li>
+           <li>zzz_Web_app</li>
+                 
+</ol>
+                  
+<p align="justify">&nbsp; &nbsp;&nbsp;&nbsp; The Divisions and Wild-xsd-groups examples 
+are my
+own quite arbitrary but representative ones. All the others represent real
+configuration examples from the different sources. Currently different examples
+demonstrate different features of the XML Editor. Here is the list of the
+XML Editor features and respective examples to look at. </p>
+                  
+<ol>
+           <li>                                        
+    <p align="justify">Additional labeling of the elements/groups with information,
+    taken     from their descendants &#8211; in Divisions, Log4j, Jnlp, Ejb-jar_1_1,
+    Xmldbms.&nbsp; </p>
+           </li>
+           <li>                                        
+    <p align="justify">Multiple namespaces support &#8211; in Divisions. Divisions.xsd
+    schema     document uses Types.inc schema document, which defines its
+own    namespace. After loading     the Division.xsd you may click "New XML"
+button    and choose namespace and root     element from the "New XML" dialog.</p>
+           </li>
+           <li>                                        
+    <p align="justify">Custom field editors, declared within "appinfo" elements
+    of     the schema document &#8211; in Divisions, TagLibrary, Xmldbms. You can
+  find  custom field     editor definitions within &#8220;appinfo&#8221; elements of
+the   respective  xsd files. Please     take a look at the date editors in
+the  Divisions example  ({Supervisor or Employee}/Choice     group/SequenceGroup
+ #2/ContractStartDate-ContractEndDate).  All the field editing     check-boxes,
+ editable combo-boxes and text area  dialogs in these examples are custom
+    editors. </p>
+           </li>
+           <li>                                        
+    <p align="justify">ID-IDREF referential integrity control &#8211; in Log4j.
+    The     application provides drop-down lists of available ID values for
+  editing  of the IDREF     values.</p>
+           </li>
+           <li>                                        
+    <p align="justify">Messages for selected nodes - Divisions, TagLibrary.
+    In     &#8220;Divisions&#8221; example messages are defined for the "Division" elements 
+        (in both element and type definitions) and for mentioned above   
+ ContractStartDate-ContractEndDate  elements. In the &#8220;TagLibrary&#8221; example 
+messages     saying "Fully qualified  class name" are defined for "validator-class", 
+     "listener-class", "tag-class"  and "tei-class" fields. You     can easily 
+ insert your own messages into &#8220;documentation&#8221; schema elements for any   
+ element, attribute and type definitions.</p>
+           </li>
+           <li>                                        
+    <p align="justify">Regular expressions control during typing - Divisions,
+    TagLibrary. In     the &#8220;Divisions&#8221; example try to edit {Superviser or
+Employee}/EmployeeInfo/SSN        fields. In the &#8220;TagLibrary&#8221; example try
+to edit any "*-class" field.</p>
+           </li>
+           <li>                                        
+    <p align="justify">Nested grouping - Divisions (choice groups within 
+   "Supervisor" and "Employee" elements contain sequence groups). Since 
+   these choice groups contain other groups, they are represented with radio-groups.
+    All the     other choice groups in all the examples contain elements
+and    therefore they are     represented with drop-down lists.</p>
+           </li>
+           <li>                                        
+    <p align="justify">Substitution group - Divisions ({Supervisor or Employee}/array
+    of     &lt; File &gt; elements).</p>
+           </li>
+           <li>                                        
+    <p align="justify">Schema "all" Group - Divisions. It is labeled    
+"Reorderable Group" and resides within {Supervisor or     Employee}/EmployeeInfo/EContact
+    elements.</p>
+           </li>
+           <li>                                        
+    <p align="justify">elementFormDefault="unqualified" - Log4j,     elementFormDefault="qualified"
+    &#8211; all other examples.</p>
+           </li>
+           <li>                                        
+    <p align="justify">Search for invalid nodes - Divisions - Divisions_BAD.xml.
+    This xml     file contains 3 errors. Try to load it and click "Find invalid
+    node" button.     After each button click the editor shows next invalid
+  node  found.</p>
+           </li>
+                 
+           <li>                                        
+    <p align="justify"> <font color="red">NEW!</font> Wild-xsd-groups example demonstrates a new ability
+of the XAmple XML editor v2.2 to resolve correctly non-trivial combinatorial problems of 
+reconstruction of hierarchies of XSD groups for given sequences
+of child xml elements.</p>
+           </li>
+                 
+</ol>
+                  
+<p align="justify">The additional labeling (1) and custom editors (3) require
+    additional information, specified within &#8220;appinfo&#8221; schema elements. The
+  node-specific  messages (5) have to be specified within &#8220;documentation&#8221;
+schema  elements.<br>
+         The schemas for all the examples but "Divisions" were created from 
+ *.dtd    documents using XML Spy application. The schemas for the examples 
+ with &#8220;zzz_&#8221;   prefix were left "as is", without any additional application-specific 
+ information.  </p>
+                  
+<blockquote>                           
+  <p align="justify"><i>The XML editor reads DTD reference from the source
+    XML document and   includes it in the resulting XML Document. To allow
+ execution   of the examples on computer   without Internet connection, all
+ the external   DTD references in the XML document are   commented out. If
+ you want them  to be included, please uncomment them before loading the
+  documents. <br>
+           <br>
+           If you are going to use XML Spy to create an XML Schema out of 
+existing    DTD, please be   aware of the following issue. Accordingly the 
+XML Schema    Specification, the <b>xsd:restriction</b>   has to be used for
+the restriction    of the <b>xsd:anyType</b> to an empty content with a 
+ set of attributes,    whereas the <b>xsd:extension</b> has to be used for
+the extension of   the     <b>xsd:simpleContent</b> with a set of attributes. 
+For some reason the  XML Spy uses <b>xsd:restriction</b>   in both cases, 
+what is incorrect. You  will have to look through the generated schema   document
+and substitute    <b>xsd:restriction</b> with <b>xsd:extension</b> when needed.</i></p>
+         </blockquote>
+                  
+<p><big><big><a name="_3"></a></big></big></p>
+                  
+<p><big><big>3. Customizing XML Schema.</big></big><br>
+         <br>
+         Generally, XAmple XML Editor can work with any given XML Schema, 
+  having  no editor-specific features. Nevertheless customizing the schema
+  with such  features increases convenience of the tool and its user friendliness
+   quite  radically. <br>
+         <br>
+         <big><a name="_3_1"></a> 3.1. Default field editors.</big><br>
+         <br>
+         By default the&nbsp; component creates and uses 2 types of the field
+    editors: </p>
+                  
+<ol>
+           <li>com.fg.ftreenodes.FComboBox  (editable combo-box) - for all
+ the  data-types, restricted     with <b>xsd:enumeration</b> and for the
+    <b>xsd:IDREF</b>     data-type.</li>
+                    <li>com.fg.ftreenodes.FTextField (editable text-field)
+ - for all the   other data-types.</li>
+                 
+</ol>
+                  
+<p align="justify"><big><a name="_3_2"></a>3.2. Custom field editors.</big><br>
+         <br>
+         Custom field editor is a JComponent or a JDialog which implements
+ <b>com.fg.ftreenodes.ICellControl</b>    interface. A custom editor can
+be  specified with <b>appinfo/node-info/@editor-class</b>  attribute within
+any  of the <b>xsd:element</b> , <b>xsd:attribute</b> and  <b>xsd:simpleType</b>
+ schema definitions. If custom  editors are specified  for both element/attribute
+ and its type, the element/attribute  editor definition  will be used. Here
+ is an example of the custom field editor declaration:<br>
+         <br>
+         &lt;xsd:element name="SomeElement" type="xsd:string"&gt;<br>
+         &nbsp;&nbsp;&nbsp; &lt;xsd:annotation&gt;<br>
+         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;xsd:appinfo&gt;<br>
+         <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+&lt;</b>fg:node-info    <b>editor-class="com.fg.ftreenodes.FComboBox"</b>&gt;<b><br>
+       </b> &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; 
+   &lt;fg:param&gt;programmer&lt;/fg:param&gt;<br>
+         &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp; 
+&nbsp;&lt;fg:param&gt;engineer&lt;/fg:param&gt;<br>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+&nbsp;&lt;fg:param&gt;salesman&lt;/fg:param&gt;<br>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+   &nbsp;&lt;fg:param&gt;shoemaker&lt;/fg:param&gt;<br>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&lt;/fg:node-info&gt;<br>
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;/xsd:appinfo&gt;<br>
+         &nbsp;&nbsp;&nbsp; &lt;/xsd:annotation&gt;<br>
+         &lt;/xsd:element&gt;<br>
+         &nbsp;<br>
+         If custom editor is a JComponent, it will be placed on the tree
+node,    if  it is a JDialog, the tree node will be automatically provided
+with a  button  to invoke the dialog. <br>
+         <br>
+         <big><a name="_3_3"></a> 3.3. Global field editors.</big><br>
+         <br>
+         Global field editor is a JDialog which implements&nbsp;<b>com.fg.ftreenodes.ICellControl</b> 
+  interface.  It has to be instantiated and registered with FXDocumentModelImpl 
+ object under  some name, for example:<br>
+         &nbsp;<br>
+         &nbsp;&nbsp;&nbsp;&nbsp; FXDocumentModel model = new FXDocumentModelImpl();<br>
+         &nbsp;&nbsp;&nbsp;&nbsp; FFileDialog fFileDialog = new FFileDialog();<br>
+         &nbsp;&nbsp; &nbsp; model.addGlobalEditor("FileDialog", fFileDialog);<br>
+         <br>
+     A global field editor can be specified with <b>appinfo/node-info/@editor-id</b> 
+  attribute within any of the <b>xsd:element</b> , <b>xsd:attribute</b> and 
+  <b>xsd:simpleType</b> schema definitions.&nbsp; The Schema declaration has
+   the following look: <br>
+         <br>
+         &lt;xsd:element name="TextFile" type="xsd:string"&gt;<br>
+         &nbsp;&nbsp;&nbsp; &lt;xsd:annotation&gt;<br>
+         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;xsd:appinfo&gt; <br>
+       &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;fg:node-info <b>editor-id="FileDialog"</b>&gt; 
+   <br>
+       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+   &lt;fg:param&gt;txt|doc|rtf|Text files: *.txt, *.doc, *.rtf&lt;/fg:param&gt;<br>
+       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;/fg:node-info&gt;<br>
+       &nbsp; &nbsp; &nbsp; &nbsp; &lt;/xsd:appinfo&gt;<br>
+       &nbsp;&nbsp;&nbsp; &lt;/xsd:annotation&gt;<br>
+       &lt;/xsd:element&gt;<br>
+       </p>
+             
+<p align="justify">     Since the global editors are instantiated outside
+   of the XML editor classes, they  can hold external object references,
+etc.<br>
+       <br>
+      <big><a name="_3_4"></a> 3.4. &nbsp;Field editor parameters.</big></p>
+           
+<p align="justify">Parameters for both custom and global field editors are 
+  specified with <b>appinfo/node-info/param</b> elements and passed to the 
+  field editor components as <b>com.fg.ftreenodes.Params</b> objects. The 
+<b>com.fg.ftreenodes.Params</b>&nbsp;interface   defines two access methods: 
+<b>getList()</b> and <b>getMap()</b>. If a <b>param</b>   element has a <b>name</b> 
+attribute, &nbsp;it will be inserted into the Map  under the given name, otherwise
+it will be inserted into the List. It is possible to define both List and
+Map parameters or either of them. If <b>Params</b>  object doesn't contain
+List or Map parameters, then respective getList() or getMap() method returns
+null.<br>
+     </p>
+         
+<p align="justify">&lt;xsd:element name="SomeElement" type="xsd:string"&gt;<br>
+         &nbsp;&nbsp;&nbsp; &lt;xsd:annotation&gt;<br>
+         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;xsd:appinfo&gt;<br>
+         <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+&lt;</b>fg:node-info    editor-class="some.fully.qualified.ClassName"&gt;<b><br>
+        &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; 
+  &lt;fg:param&gt;list-value-1&lt;/fg:param&gt;<br>
+       &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; 
+  &lt;fg:param&gt;list-value-2&lt;/fg:param&gt;<br>
+       &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; 
+  &lt;fg:param&gt;list-value-3&lt;/fg:param&gt;<br>
+       &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; 
+  &lt;fg:param name="name-1"&gt;map-value-1&lt;/fg:param&gt;<br>
+       &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; 
+  &lt;fg:param name="name-2"&gt;map-value-2&lt;/fg:param&gt;<br>
+       &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; 
+  &lt;fg:param name="name-3"&gt;map-value-3&lt;/fg:param&gt;<br>
+      </b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&lt;/fg:node-info&gt;<br>
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&lt;/xsd:appinfo&gt;<br>
+         &nbsp;&nbsp;&nbsp; &lt;/xsd:annotation&gt;<br>
+         &lt;/xsd:element&gt; </p>
+           
+<p align="justify"><br>
+         <big><a name="_3_5"></a> 3.5. Additional labeling.</big><br>
+         <br>
+         Some element and group nodes on the screen can be labeled with the 
+ information,   taken from some of their descendants (elements and attributes) 
+ at any depth.   This feature allowes a user to identify tree nodes without 
+ expanding them   and thus radically simplifies the tree navigation. The mechanism
+ of the additional  labeling is following: if some node is specified as "exposed",
+ then its parent  node has to show the information, taken from this child
+along with the information,  which was exposed to the child by its children.
+Any group (<b>xsd:sequence</b>  , <b>xsd:choice</b> , <b>xsd:all</b> ) which
+doesn't allow multiple occurances  is considered to be exposed by default,
+thus all their elements which are  specified as exposed will be exposed to
+the group's parent. An element node  which allows multiple occurrences can
+not be exposed to its parent. A node can be specified as "exposed" with&nbsp;<b>appinfo/node-info/@exposed</b> 
+  attribute within <b>xsd:element</b> , <b>xsd:attribute</b>  , <b>xsd:simpleType</b> 
+  and <b>xsd:complexType</b> schema definitions.<br>
+         <br>
+         &lt;xsd:element name="category"&gt;<br>
+         <b>&nbsp;&nbsp;&nbsp; </b>&lt;xsd:annotation&gt;<br>
+       &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &lt;xs:appinfo&gt;<br>
+       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&lt;fg:node-info 
+ <b>exposed="true"</b>/&gt;<br>
+       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&lt;/xs:appinfo&gt;<br>
+       &nbsp;&nbsp; &lt;/xsd:annotation&gt;<b><br>
+         </b>&nbsp;&nbsp;&nbsp; &lt;xsd:complexType&gt;<br>
+         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;xsd:sequence&gt;<br>
+         &nbsp; &nbsp; &nbsp; &nbsp;............................<br>
+         &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &lt;/xsd:sequence&gt;<br>
+         &nbsp;&nbsp;&nbsp; &nbsp; .............................<br>
+         &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &lt;xsd:attribute name="name" type="xsd:string"
+    use="required"&gt;<br>
+         <b>&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; </b>&lt;xsd:annotation&gt;<br>
+       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+  &nbsp;&lt;xs:appinfo&gt;<br>
+       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;  &nbsp;&lt;fg:node-info <b>exposed="true"</b>/&gt;<br>
+       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+  &nbsp;&lt;/xs:appinfo&gt;<br>
+       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;/xsd:annotation&gt;<b><br>
+         </b>&nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &lt;/xsd:attribute&gt;<br>
+         &nbsp; &nbsp; &nbsp; &nbsp;...........................<br>
+         &nbsp;&nbsp;&nbsp; &lt;/xsd:complexType&gt;<br>
+         &lt;/xsd:element&gt;<br>
+         <br>
+         If some type is specified as "exposed", all the elements and attributes
+    of this type will be considered "exposed" unless they are declared with
+  <b>fg:exposed="false"</b> .<br>
+         <br>
+         Here is how the additional labeling looks on the screen:<br>
+         <br>
+         Some nodes from the "xmldbms" example:<br>
+         <b>&nbsp;&nbsp;&nbsp; Options</b> DateTimeFormats.Patterns.Timestamp="MM.dd.yy"<br>
+         <b>&nbsp;&nbsp;&nbsp; ClassMap</b> ElementType.Name="Customer",
+ToClassTable.Table.Name="Customers"<br>
+         <br>
+         Some nodes from the "log4j" example:<br>
+         <b>&nbsp;&nbsp;&nbsp; Choice Group</b> category.{name="some.cat",
+ priority.value="TRACE"}<br>
+         <b>&nbsp;&nbsp;&nbsp; param</b> name="RemoteHost", value="localhost"<br>
+         <b>&nbsp;&nbsp;&nbsp; param</b> name="Port", value="5000"<br>
+         <b>&nbsp;&nbsp;&nbsp; param</b> name="LocationInfo", value="true"<br>
+         <br>
+         <big><a name="_3_6"></a> 3.6. Messages for selected nodes.</big><br>
+         <br>
+     Text messages for a node can be specified with&nbsp;<b>appinfo/node-info/@message</b> 
+  attribute and/or&nbsp;<b>appinfo/node-info/message</b> elements within <b>xsd:element</b>,
+  <b>xsd:attribute</b>, <b>xsd:simpleType</b> and <b>xsd:complexType</b> 
+schema  elements. The respective message will be shown to user when respective 
+element/attribute  node is selected.</p>
+         
+<p align="justify">    &nbsp;&nbsp;&nbsp; &lt;xs:simpleType name="dateType"&gt;<br>
+         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&lt;xs:annotation&gt;<br>
+     &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;xs:appinfo&gt;<br>
+       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+  &nbsp;&nbsp;&nbsp;  &nbsp;&lt;fg:node-info <b>message="first line"</b>&gt;<br>
+     <b>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;fg:message&gt;second line&lt;/fg:message&gt;<br>
+     &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+  &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;fg:message&gt;third line&lt;/fg:message&gt;<br>
+     </b>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 
+  &nbsp;&nbsp;&nbsp;  &nbsp;&lt;/fg:node-info&gt;<br>
+     &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/xs:appinfo&gt;<br>
+         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&lt;/xs:annotation&gt;<br>
+         &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&lt;xs:restriction base="xs:date"/&gt;<br>
+         &nbsp;&nbsp;&nbsp; &lt;/xs:simpleType&gt;<br>
+         &nbsp;<br>
+         <big><big><a name="_4"></a> 4. Underlying tree control - FTree.</big></big><br>
+         <br>
+         The basic XML editor component FXBasicView is built on top of custom
+ tree control    FTree. This section introduces FTree control and gives a
+quick overview  of  its particular features and functionality.<br>
+         <br>
+         It is easy to notice that the FTree component exposes tree data-structure
+    in a manner quite different from all existing tree controls including
+JTree.    The reason for that is that all existing tree controls are mostly
+navigational    controls with additional data editing functionality. The
+FTree primarily   is a data-editing control.<br>
+         <br>
+         For the software users the very idea of the screen objects is associated
+    with distinctive screen areas (often rectangular and provided with frames).
+    The software users expect screen objects to alter their appearances depending
+    on the current (enabled/disabled) state. From the user standpoint, a
+JTree     branch can't be seen as a screen object and therefore there is
+no way to   show that the whole tree branch (not just a set of nodes) is
+enabled or disabled.   Alternatively, the FTree component represents data
+as a tree of nested screen   areas - "folders". The folders can be painted
+in different  colors accordingly   to their particular purpose and current
+state. Thus,  the FTree component  exposes tree branches as distinctive screen
+objects,  which can be enabled/disabled   by user. This feature is absolutely
+crucial  for the XAmple XML editor user interface.   <br>
+         <br>
+         The following FTree features are related to "expansion bars" - narrow
+   vertical  buttons, which are located along the left border of each FTree
+  folder. An  FTree folder can be expanded/collapsed with a mouse click at
+ its expansion  bar, unless it is prevented by the user code. Additionally,
+ the FTree component  generates special events when the mouse pointer enters
+ and exits expansion  bar areas, thus allowing the user code to display any
+ folder-related information.  This technique enables the software user to
+identify any folder at any nesting  level and collapse it without scrolling
+the tree up until the folder label  becomes visible. When a folder is collapsed
+with a mouse click at its expansion  bar, the whole tree is scrolled up,
+so after the folder collapsing the mouse  remains pointed at the expansion
+bar of the same folder (unless the folder  is situated too close to the tree
+top or bottom). <br>
+         <br>
+         The JTree component represents an extremely flexible framework,
+which    allows  to use any kind of field renderer and editors. At the same
+time  JTree  provides  no help for managing of multiple renderers and editors
+of  different  types.  Usually it requires a java guru to create new types
+of  renderers and editors  and to use different renderers and editors for
+the  different tree nodes. The FTree component addresses these problems and
+simplifies  both creation of the new renderers/editors and usage of multiple
+renderers/editors   of different  types. You may notice, that FTree makes
+possible even creation   and usage  of previousely unknown editors/renderers,
+specified with their   class names  (see&nbsp; <a href="#_3_2">3.2 - Custom
+field editors</a> ).   <br>
+         <br>
+         You may notice that the XAmple XML editor always uses editors of 
+the   same  type as respective field renderers. Actually it is not an FTree 
+requirement    but rather an XAmple XML editor particular feature. The FTree 
+component allows    to use renderers and editors of different types or of 
+the same type with   different settings (color, font, frames, etc.). <br>
+         <br>
+         The FTree is a quite generic component much alike JTree. Generally,
+  it  follows all the Swing paradigms: <br>
+         </p>
+                  
+<ul>
+           <li>it supports any custom implementation of the proprietary tree
+  model   interface and     creates default tree model when no custom model
+  provided,     </li>
+           <li>it uses just a single instance of each type of cell renderer 
+ and   editor the same way as     JTree does, thus sparing a lot of resources, 
+   </li>
+           <li>it generates events quite analogous to JTree events and calls
+  respective   listeners, </li>
+           <li>it has to be placed on a JScrollPane in order to support scrolling,
+    etc., etc. </li>
+                 
+</ul>
+                  
+<p align="justify">Like the JTree, the FTree is not a component with completely
+    prebuilt functionality but rather a flexible framework. For example,
+the    tree instance, used by the XAmple XML editor, has the following feature:
+  tree nodes and branches (folders) can be enabled/disabled with mouse click
+  at their associated toggle controls (check-boxes and radio-buttons). This
+  feature is not provided by FTree but implemented with a tree model, custom
+  nodes and specific renderer/editor components.<br>
+         <br>
+         The FTree is a quite powerful component. It can expose hundreds
+of  thousands   of nodes (possibly - of different heights) with multiple
+sophisticated   renderers   and editors. The component may represent an attractive
+alternative   to JTree   for many types of application.</p>
+                  
+<hr>          
+<p align="center">Copyright &copy; 2003 Felix Golubov. All rights reserved.</p>
+         </body>
+</html>

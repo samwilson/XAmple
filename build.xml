@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="XAmple" default="build-and-run" basedir=".">
+	<property name="app.name" value="xample"/>
+	<property name="app.jar" value="${app.name}.jar"/>
+	<property name="lib.dir" value="lib"/>
+	<property name="src.dir" value="src"/>
+	<property name="classes.dir" value="classes"/>
+	<path id="base.path">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+		<pathelement location="${classes.dir}"/>
+	</path>
+	<target name="prepare">
+		<mkdir dir="${classes.dir}"/>
+	</target>
+	<target name="clean" depends="cleandist">
+		<delete dir="${classes.dir}"/>
+	</target>
+	<target name="compile" depends="prepare">
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="on" optimize="off" deprecation="off">
+			<classpath refid="base.path"/>
+		</javac>
+		<copy todir="${classes.dir}">
+			<fileset dir="${src.dir}/">
+				<include name="**/*.gif"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="cleandist">
+		<delete file="${app.jar}"/>
+	</target>
+	<target name="build-app.jar" depends="cleandist, compile">
+		<jar jarfile="${app.jar}">
+			<fileset dir="${classes.dir}"/>
+		</jar>
+	</target>
+	<target name="build-and-run" depends="build-app.jar">
+		<java classname="com.fg.xample.XAmple" fork="true">
+			<classpath refid="base.path"/>
+		</java>
+	</target>
+</project>

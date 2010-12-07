@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:group name="Abc">
+		<xs:sequence>
+			<xs:element name="aaa" type="xs:integer"/>
+			<xs:element name="bbb" minOccurs="0" type="xs:integer"/>
+			<xs:element name="ccc" minOccurs="0" type="xs:integer"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="ABC">
+		<xs:sequence>
+			<xs:element name="aaa" type="xs:integer"/>
+			<xs:element name="bbb" type="xs:integer"/>
+			<xs:element name="ccc" type="xs:integer"/>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="ABc">
+		<xs:sequence>
+			<xs:element name="aaa" type="xs:integer"/>
+			<xs:element name="bbb" type="xs:integer"/>
+			<xs:element name="ccc" minOccurs="0" type="xs:integer"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="CD">
+		<xs:sequence>
+			<xs:element name="ccc" type="xs:integer"/>
+			<xs:element name="ddd" type="xs:integer"/>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="ABc_CD">
+		<xs:choice>
+			<xs:group ref="ABc"/>
+			<xs:group ref="CD"/>
+		</xs:choice>
+	</xs:group>
+
+	<xs:element name="root">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="example-1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="aaa" minOccurs="0" type="xs:integer"/>
+							<xs:group ref="Abc" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:group ref="ABC" minOccurs="2" maxOccurs="2"/>
+						</xs:sequence>
+						<xs:attribute name="info" type="xs:string" default=" DTD definition like: (a?,(a,b?,c?)*,(a,b,c),(a,b,c))  "/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="example-2">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:group ref="ABc_CD" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+						<xs:attribute name="info" type="xs:string" default=" DTD definition like: ((a,b,c?)|(c,d))*  "/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="example-3">
+					<xs:complexType>
+						<xs:sequence minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="aaa" type="xs:integer"/>
+							<xs:element name="bbb" type="xs:integer"/>
+							<xs:sequence minOccurs="0" maxOccurs="5">
+								<xs:element name="aaa" type="xs:integer"/>
+								<xs:element name="ccc" type="xs:integer"/>
+							</xs:sequence>
+						</xs:sequence>
+						<xs:attribute name="info" type="xs:string" default=" DTD definition like: ((a,b,(a,c)*))*  "/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+

@@ -1,0 +1,137 @@
+<xs:schema targetNamespace="http://www.felix.org/Divisions" xmlns:fg="http://www.FGolubov.com/XMLEditor" xmlns:types="http://www.felix.org/Types" xmlns="http://www.felix.org/Divisions" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:import namespace="http://www.felix.org/Types" schemaLocation="Types.inc"/>
+	<xs:simpleType name="dateType">
+		<xs:annotation>
+			<xs:appinfo>
+				<fg:node-info editor-class="com.fg.custnodes.FDate"> 
+					<fg:message>Date format: yyyy-mm-dd</fg:message>
+				</fg:node-info> 
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:group name="SalaryGroup">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="SalaryPerYear" type="xs:decimal">
+					<xs:annotation>
+						<xs:appinfo>
+ 							<fg:node-info exposed="true"/>
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="BenefitsPerYear" type="xs:decimal"/>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:element name="ContractStartDate" type="dateType"/>
+				<xs:element name="ContractEndDate" type="dateType"/>
+				<xs:element name="SalaryPerHour" type="xs:decimal">
+					<xs:annotation>
+						<xs:appinfo>
+ 							<fg:node-info exposed="true"/>
+						</xs:appinfo>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:choice>
+	</xs:group>
+	<xs:complexType name="EmployeeType">
+		<xs:sequence>
+			<xs:element ref="types:Name">
+				<xs:annotation>
+					<xs:appinfo>
+						<fg:node-info exposed="true"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element ref="types:File" minOccurs="0" maxOccurs="10"/>
+			<xs:element name="Position" type="types:String20Type">
+				<xs:annotation>
+					<xs:appinfo>
+						<fg:node-info editor-class="com.fg.ftreenodes.FComboBox">
+							<fg:param>programmer</fg:param>
+							<fg:param>engineer</fg:param>
+							<fg:param>salesman</fg:param>
+							<fg:param>shoemaker</fg:param>
+						</fg:node-info>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Degree" type="types:DegreeType" minOccurs="0"/>
+			<xs:group ref="SalaryGroup"/>
+			<xs:element name="EmployeeInfo" type="types:EmployeeInfoType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="EmployeeID" type="xs:integer" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="DivisionType">
+		<xs:annotation>
+			<xs:appinfo>
+				<fg:node-info message="SOME MESSAGE"/>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DivisionName" type="types:String20Type">
+				<xs:annotation>
+					<xs:appinfo>
+						<fg:node-info exposed="true"/>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Description" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<fg:node-info editor-class="com.fg.ftreenodes.FTextAreaDialog"/> 
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Supervisor" type="EmployeeType" minOccurs="0"/>
+			<xs:element name="Division" type="DivisionType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Employee" type="EmployeeType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="DivisionID" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:appinfo>
+					<fg:node-info exposed="true"/>
+				</xs:appinfo>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="Divisions">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="10">
+					<xs:element name="Info" type="xs:string">
+						<xs:annotation>
+							<xs:appinfo>
+								<fg:node-info editor-class="com.fg.ftreenodes.FTextAreaDialog"/> 
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="types:document-url"/>
+					<xs:element ref="types:Text-File">
+						<xs:annotation>
+							<xs:appinfo>
+								<fg:node-info editor-id="FileDialog"> 
+									<fg:param>txt|doc|rtf|Text files: *.txt, *.doc, *.rtf</fg:param>
+								</fg:node-info>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="types:Image-File">
+						<xs:annotation>
+							<xs:appinfo>
+								<fg:node-info editor-id="FileDialog"> 
+									<fg:param>gif|jpg|tif|Image files: *.gif, *.jpg, *.tif</fg:param>
+								</fg:node-info>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:choice>
+				<xs:element name="Division" type="DivisionType" maxOccurs="unbounded">
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute ref="types:globalAttr"/>
+			<xs:attributeGroup ref="types:MyAttributes"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

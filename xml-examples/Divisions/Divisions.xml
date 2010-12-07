@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div:Divisions typ:globalAttr="some value"
+  xmlns:div="http://www.felix.org/Divisions"
+  xmlns:typ="http://www.felix.org/Types" xmlns:x1="http://www.w3.org/2001/XMLSchema">
+  <div:Info>Some text - first line Second line </div:Info>
+  <div:Info>Felix Golubov</div:Info>
+  <typ:Image-File image-height="100" image-width="200">C:\Applets\FGTreeXML\DOC.GIF</typ:Image-File>
+  <typ:document-url>http://www.me.com/index.html</typ:document-url>
+  <div:Division DivisionID="0">
+    <div:DivisionName>Something</div:DivisionName>
+    <div:Supervisor EmployeeID="0">
+      <typ:Name>
+        <typ:FirstName>Sup0ttdtdtdtdtdtdtd</typ:FirstName>
+        <typ:MiddleInitial>F</typ:MiddleInitial>
+        <typ:LastName>Green</typ:LastName>
+      </typ:Name>
+      <typ:document-url>http://www.aaa.com/abcd/doc1.html</typ:document-url>
+      <typ:Text-File language="English">C:\Applets\LinkBar.txt</typ:Text-File>
+      <typ:Image-File image-height="144" image-width="156">C:\Applets\FGLinkBar\BOOK.GIF</typ:Image-File>
+      <div:Position>engineer</div:Position>
+      <div:ContractStartDate>2001-12-12</div:ContractStartDate>
+      <div:ContractEndDate>2002-11-05</div:ContractEndDate>
+      <div:SalaryPerHour>64</div:SalaryPerHour>
+      <div:EmployeeInfo>
+        <typ:EContact Publish="Yes">
+          <typ:Pager>123456</typ:Pager>
+          <typ:CellPhone>987654321</typ:CellPhone>
+        </typ:EContact>
+      </div:EmployeeInfo>
+    </div:Supervisor>
+    <div:Division DivisionID="new">
+      <div:DivisionName>NEW</div:DivisionName>
+      <div:Supervisor EmployeeID="55">
+        <typ:Name>
+          <typ:FirstName>John</typ:FirstName>
+          <typ:LastName>Smith</typ:LastName>
+        </typ:Name>
+        <div:Position>engineer</div:Position>
+        <div:SalaryPerYear>120000</div:SalaryPerYear>
+        <div:BenefitsPerYear>40000</div:BenefitsPerYear>
+      </div:Supervisor>
+    </div:Division>
+    <div:Division DivisionID="1">
+      <div:DivisionName>One</div:DivisionName>
+      <div:Supervisor EmployeeID="77">
+        <typ:Name>
+          <typ:FirstName>George</typ:FirstName>
+          <typ:LastName>Simpson</typ:LastName>
+        </typ:Name>
+        <div:Position>salesman</div:Position>
+        <div:ContractStartDate>2000-11-06</div:ContractStartDate>
+        <div:ContractEndDate>2003-01-15</div:ContractEndDate>
+        <div:SalaryPerHour>55</div:SalaryPerHour>
+      </div:Supervisor>
+    </div:Division>
+    <div:Division DivisionID="11">
+      <div:DivisionName>Div11</div:DivisionName>
+      <div:Description>Some Text</div:Description>
+      <div:Supervisor EmployeeID="0">
+        <typ:Name>
+          <typ:FirstName>George</typ:FirstName>
+          <typ:MiddleInitial>B</typ:MiddleInitial>
+          <typ:LastName>White</typ:LastName>
+        </typ:Name>
+        <div:Position>engineer</div:Position>
+        <div:ContractStartDate>2002-02-06</div:ContractStartDate>
+        <div:ContractEndDate>2003-02-06</div:ContractEndDate>
+        <div:SalaryPerHour>41.5</div:SalaryPerHour>
+      </div:Supervisor>
+    </div:Division>
+    <div:Division DivisionID="2">
+      <div:DivisionName>Two</div:DivisionName>
+      <div:Supervisor EmployeeID="99">
+        <typ:Name>
+          <typ:FirstName>Joan</typ:FirstName>
+          <typ:MiddleInitial>D</typ:MiddleInitial>
+          <typ:LastName>Wheat</typ:LastName>
+        </typ:Name>
+        <div:Position>shoemaker</div:Position>
+        <div:Degree>PhD</div:Degree>
+        <div:SalaryPerYear>190000</div:SalaryPerYear>
+        <div:BenefitsPerYear>50000</div:BenefitsPerYear>
+      </div:Supervisor>
+    </div:Division>
+    <div:Employee EmployeeID="33333">
+      <typ:Name>
+        <typ:FirstName>John</typ:FirstName>
+        <typ:LastName>Doe</typ:LastName>
+      </typ:Name>
+      <div:Position>engineer</div:Position>
+      <div:SalaryPerYear>12345</div:SalaryPerYear>
+      <div:BenefitsPerYear>222</div:BenefitsPerYear>
+    </div:Employee>
+    <div:Employee EmployeeID="1111112222">
+      <typ:Name>
+        <typ:FirstName>John</typ:FirstName>
+        <typ:MiddleInitial>A</typ:MiddleInitial>
+        <typ:LastName>Black</typ:LastName>
+      </typ:Name>
+      <div:Position>Loafer</div:Position>
+      <div:Degree>None</div:Degree>
+      <div:ContractStartDate>2000-01-01</div:ContractStartDate>
+      <div:ContractEndDate>2008-01-01</div:ContractEndDate>
+      <div:SalaryPerHour>30</div:SalaryPerHour>
+    </div:Employee>
+    <div:Employee EmployeeID="4444">
+      <typ:Name>
+        <typ:FirstName>Ann</typ:FirstName>
+        <typ:LastName>Sidoroff</typ:LastName>
+      </typ:Name>
+      <div:Position>programmer</div:Position>
+      <div:Degree>MBA</div:Degree>
+      <div:ContractStartDate>2000-04-19</div:ContractStartDate>
+      <div:ContractEndDate>2004-02-25</div:ContractEndDate>
+      <div:SalaryPerHour>37</div:SalaryPerHour>
+    </div:Employee>
+    <div:Employee EmployeeID="474784">
+      <typ:Name>
+        <typ:FirstName>Boris</typ:FirstName>
+        <typ:LastName>Morosov</typ:LastName>
+      </typ:Name>
+      <div:Position>Doorkeeper</div:Position>
+      <div:Degree>Master</div:Degree>
+      <div:SalaryPerYear>12</div:SalaryPerYear>
+      <div:BenefitsPerYear>0</div:BenefitsPerYear>
+    </div:Employee>
+  </div:Division>
+</div:Divisions>

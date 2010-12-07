@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<!DOCTYPE XMLToDBMS SYSTEM "xmldbms.dtd">
+<XMLToDBMS Version="1.0">
+	<Options/>
+	<Maps>
+		<ClassMap>
+			<ElementType Name="Link"/>
+			<ToClassTable>
+				<Table Name="Link"/>
+			</ToClassTable>
+			<PropertyMap>
+				<Attribute Name="URL"/>
+				<ToColumn>
+					<Column Name="URL"/>
+				</ToColumn>
+			</PropertyMap>
+			<PropertyMap>
+				<PCDATA/>
+				<ToColumn>
+					<Column Name="LinkPCDATA"/>
+				</ToColumn>
+				<OrderColumn Name="LinkPCDATAOrder" Generate="Yes"/>
+			</PropertyMap>
+		</ClassMap>
+		<ClassMap>
+			<ElementType Name="Item"/>
+			<ToClassTable>
+				<Table Name="Item"/>
+			</ToClassTable>
+			<PropertyMap>
+				<PCDATA/>
+				<ToPropertyTable KeyInParentTable="Candidate">
+					<Table Name="ItemPCDATA"/>
+					<CandidateKey Generate="Yes">
+						<Column Name="ItemPK"/>
+					</CandidateKey>
+					<ForeignKey>
+						<Column Name="ItemFK"/>
+					</ForeignKey>
+					<Column Name="ItemPCDATA"/>
+				</ToPropertyTable>
+				<OrderColumn Name="ItemPCDATAOrder" Generate="Yes"/>
+			</PropertyMap>
+			<RelatedClass KeyInParentTable="Candidate">
+				<ElementType Name="Link"/>
+				<CandidateKey Generate="Yes">
+					<Column Name="ItemPK"/>
+				</CandidateKey>
+				<ForeignKey>
+					<Column Name="ItemFK"/>
+				</ForeignKey>
+				<OrderColumn Name="LinkOrder" Generate="Yes"/>
+			</RelatedClass>
+		</ClassMap>
+		<ClassMap>
+			<ElementType Name="List"/>
+			<ToClassTable>
+				<Table Name="List"/>
+			</ToClassTable>
+			<RelatedClass KeyInParentTable="Candidate">
+				<ElementType Name="Item"/>
+				<CandidateKey Generate="Yes">
+					<Column Name="ListPK"/>
+				</CandidateKey>
+				<ForeignKey>
+					<Column Name="ListFK"/>
+				</ForeignKey>
+				<OrderColumn Name="ItemOrder" Generate="Yes"/>
+			</RelatedClass>
+		</ClassMap>
+		<ClassMap>
+			<ElementType Name="Product"/>
+			<ToRootTable>
+				<Table Name="Product"/>
+				<CandidateKey Generate="Yes">
+					<Column Name="ProductPK"/>
+				</CandidateKey>
+				<OrderColumn Name="ProductOrder" Generate="Yes"/>
+			</ToRootTable>
+			<PropertyMap>
+				<ElementType Name="Name"/>
+				<ToColumn>
+					<Column Name="Name"/>
+				</ToColumn>
+				<OrderColumn Name="NameOrder" Generate="Yes"/>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="Developer"/>
+				<ToColumn>
+					<Column Name="Developer"/>
+				</ToColumn>
+				<OrderColumn Name="DeveloperOrder" Generate="Yes"/>
+			</PropertyMap>
+			<PropertyMap>
+				<ElementType Name="Summary"/>
+				<ToColumn>
+					<Column Name="Summary"/>
+				</ToColumn>
+				<OrderColumn Name="SummaryOrder" Generate="Yes"/>
+			</PropertyMap>
+			<RelatedClass KeyInParentTable="Candidate">
+				<ElementType Name="Description"/>
+				<CandidateKey Generate="Yes">
+					<Column Name="ProductPK"/>
+				</CandidateKey>
+				<ForeignKey>
+					<Column Name="ProductFK"/>
+				</ForeignKey>
+				<OrderColumn Name="DescriptionOrder" Generate="Yes"/>
+			</RelatedClass>
+		</ClassMap>
+		<ClassMap>
+			<ElementType Name="Para"/>
+			<ToClassTable>
+				<Table Name="Para"/>
+			</ToClassTable>
+			<PropertyMap>
+				<PCDATA/>
+				<ToPropertyTable KeyInParentTable="Candidate">
+					<Table Name="ParaPCDATA"/>
+					<CandidateKey Generate="Yes">
+						<Column Name="ParaPK"/>
+					</CandidateKey>
+					<ForeignKey>
+						<Column Name="ParaFK"/>
+					</ForeignKey>
+					<Column Name="ParaPCDATA"/>
+				</ToPropertyTable>
+				<OrderColumn Name="ParaPCDATAOrder" Generate="Yes"/>
+			</PropertyMap>
+			<RelatedClass KeyInParentTable="Candidate">
+				<ElementType Name="Link"/>
+				<CandidateKey Generate="Yes">
+					<Column Name="ParaPK"/>
+				</CandidateKey>
+				<ForeignKey>
+					<Column Name="ParaFK"/>
+				</ForeignKey>
+				<OrderColumn Name="LinkOrder" Generate="Yes"/>
+			</RelatedClass>
+		</ClassMap>
+		<ClassMap>
+			<ElementType Name="Description"/>
+			<ToClassTable>
+				<Table Name="Description"/>
+			</ToClassTable>
+			<RelatedClass KeyInParentTable="Candidate">
+				<ElementType Name="List"/>
+				<CandidateKey Generate="Yes">
+					<Column Name="DescriptionPK"/>
+				</CandidateKey>
+				<ForeignKey>
+					<Column Name="DescriptionFK"/>
+				</ForeignKey>
+				<OrderColumn Name="ListOrder" Generate="Yes"/>
+			</RelatedClass>
+			<RelatedClass KeyInParentTable="Candidate">
+				<ElementType Name="Para"/>
+				<CandidateKey Generate="Yes">
+					<Column Name="DescriptionPK"/>
+				</CandidateKey>
+				<ForeignKey>
+					<Column Name="DescriptionFK"/>
+				</ForeignKey>
+				<OrderColumn Name="ParaOrder" Generate="Yes"/>
+			</RelatedClass>
+		</ClassMap>
+	</Maps>
+</XMLToDBMS>
